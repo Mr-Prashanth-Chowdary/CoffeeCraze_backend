@@ -1,5 +1,5 @@
 const userRoute = require('express').Router()
-const baseURL = require('./utils/config')
+const baseURL = require('../utils/config')
 const axios = require('axios')
 const bcrypt = require('bcrypt')
 
