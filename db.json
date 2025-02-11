@@ -1,7 +1,7 @@
 {
   "featured": [
     {
-      "id": 1,
+      "id": "1",
       "img": "https://dummyimage.com/600x400/000/fff&text=Arabica+Delight",
       "name": "Arabica Delight",
       "size": "120g Pack",
@@ -24,7 +24,7 @@
       "delivery": "2-3 days"
     },
     {
-      "id": 2,
+      "id": "2",
       "img": "https://dummyimage.com/600x400/000/fff&text=Bold+Roast",
       "name": "Bold Roast",
       "size": "500g Pack",
@@ -47,7 +47,7 @@
       "delivery": "3-5 days"
     },
     {
-      "id": 3,
+      "id": "3",
       "img": "https://dummyimage.com/600x400/000/fff&text=Eco+Brew",
       "name": "Eco Brew",
       "size": "250g Pack",
@@ -70,7 +70,7 @@
       "delivery": "2-4 days"
     },
     {
-      "id": 4,
+      "id": "4",
       "img": "https://dummyimage.com/600x400/000/fff&text=Velvet+Roast",
       "name": "Velvet Roast",
       "size": "120g Pack",
@@ -93,7 +93,7 @@
       "delivery": "2-3 days"
     },
     {
-      "id": 5,
+      "id": "5",
       "img": "https://dummyimage.com/600x400/000/fff&text=Morning+Bliss",
       "name": "Morning Bliss",
       "size": "200g Pack",
@@ -116,7 +116,7 @@
       "delivery": "1-2 days"
     },
     {
-      "id": 6,
+      "id": "6",
       "img": "https://dummyimage.com/600x400/000/fff&text=Sunrise+Espresso",
       "name": "Sunrise Espresso",
       "size": "500g Pack",
@@ -139,7 +139,7 @@
       "delivery": "3-4 days"
     },
     {
-      "id": 7,
+      "id": "7",
       "img": "https://dummyimage.com/600x400/000/fff&text=Heritage+Blend",
       "name": "Heritage Blend",
       "size": "300g Pack",
@@ -162,7 +162,7 @@
       "delivery": "2-3 days"
     },
     {
-      "id": 8,
+      "id": "8",
       "img": "https://dummyimage.com/600x400/000/fff&text=Mystic+Aroma",
       "name": "Mystic Aroma",
       "size": "150g Pack",
@@ -185,7 +185,7 @@
       "delivery": "2-3 days"
     },
     {
-      "id": 9,
+      "id": "9",
       "img": "https://dummyimage.com/600x400/000/fff&text=Night+Owl+Decaf",
       "name": "Night Owl Decaf",
       "size": "250g Pack",
@@ -208,7 +208,7 @@
       "delivery": "1-2 days"
     },
     {
-      "id": 10,
+      "id": "10",
       "img": "https://dummyimage.com/600x400/000/fff&text=Urban+Grind",
       "name": "Urban Grind",
       "size": "400g Pack",
@@ -231,7 +231,7 @@
       "delivery": "2-4 days"
     },
     {
-      "id": 11,
+      "id": "11",
       "img": "https://dummyimage.com/600x400/000/fff&text=Caramel+Haze",
       "name": "Caramel Haze",
       "size": "350g Pack",
@@ -254,7 +254,7 @@
       "delivery": "2-3 days"
     },
     {
-      "id": 12,
+      "id": "12",
       "img": "https://dummyimage.com/600x400/000/fff&text=Hazelnut+Heaven",
       "name": "Hazelnut Heaven",
       "size": "250g Pack",
@@ -510,8 +510,27 @@
         "isLocked": false
       },
       "orders": [],
-      "cart": [
-      ],
+      "cart": [],
+      "address": []
+    },
+    {
+      "id": "0.42370422688156895",
+      "profile": {
+        "avatar": "👤",
+        "name": "xyz",
+        "email": "xyz@gmail.com",
+        "phone": null,
+        "role": "customer",
+        "createdAt": "2025-02-11T04:32:51.257Z",
+        "updatedAt": "2025-02-11T04:32:51.258Z"
+      },
+      "auth": {
+        "passwordHash": "$2b$09$D9IM7IWaj2cdv.6nWmSHLOXomXeB4L33wj.nc62WAgQufvW1ePheO",
+        "lastLogin": null,
+        "isLocked": false
+      },
+      "orders": [],
+      "cart": [],
       "address": []
     }
   ]
