@@ -514,19 +514,19 @@
       "address": []
     },
     {
-      "id": "0.42370422688156895",
+      "id": "0.5079776875169759",
       "profile": {
         "avatar": "👤",
-        "name": "xyz",
+        "name": "x-man",
         "email": "xyz@gmail.com",
         "phone": null,
         "role": "customer",
-        "createdAt": "2025-02-11T04:32:51.257Z",
-        "updatedAt": "2025-02-11T04:32:51.258Z"
+        "createdAt": "2025-02-11T10:18:32.879Z",
+        "updatedAt": "2025-02-11T10:18:32.879Z"
       },
       "auth": {
-        "passwordHash": "$2b$09$D9IM7IWaj2cdv.6nWmSHLOXomXeB4L33wj.nc62WAgQufvW1ePheO",
-        "lastLogin": null,
+        "passwordHash": "$2b$09$bOwMGZtywr/jm9jmvPNyIOZ5IqYtE5f6kqhkTxRZ5P6wS30b6kk0a",
+        "lastLogin": "2025-02-11T10:20:44.087Z",
         "isLocked": false
       },
       "orders": [],

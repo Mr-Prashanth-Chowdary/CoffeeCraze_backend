@@ -28,6 +28,11 @@ auth.post('/login',async(request,response)=>{
     const payload = {id:user.id, username:user.profile.name}
     const token = jwt.sign(payload,key,{expiresIn: '1h'})
 
+    // update userdata lastlogin 
+    const updatedLastLogin = {...user,auth:{...user.auth,lastLogin:new Date().toISOString()}}
+    await axios.patch(`${baseURL}/user/${user.id}`,updatedLastLogin)
+
+    // responed back to client
     return response.status(200).json({token:token,username:user.profile.name})
     }catch(e){
         console.error(e)
@@ -71,8 +76,4 @@ auth.post('/signup',async(request,response)=>{
         return response.status(500).json({errorMsg:'internal server at signup'})
     }
 })
-
-
-
-
 module.exports = auth
