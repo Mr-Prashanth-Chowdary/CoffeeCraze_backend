@@ -8,6 +8,7 @@ const userExtractor = require('./middleware/userExtractor')
 const app = express()
 // const mongoURI
 // mongo connection 
+app.use(cors())
 app.use(express.json())
 app.use('/api/auth',authRoute)
 app.use('/api/user',userRoute)
