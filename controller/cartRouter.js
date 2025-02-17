@@ -23,7 +23,8 @@ cartRoute.post('/',async(request,response)=>{
     try{
         const cartData = request.body
         const userDataRes = await axios.get(`${baseURL}/user/${request.id}`)
-        const updateCart = [...userDataRes.data.cart,cartData]
+        // const updateCart = [...userDataRes.data.cart,[...cartData]] -> depricated
+        const updateCart = [...cartData]
         const patchRes = await axios.patch(`${baseURL}/user/${request.id}`,{cart:updateCart})
         return response.status(201).json({msg:'item added to cart',data:patchRes.data})
     }catch(e){

@@ -526,7 +526,82 @@
       },
       "auth": {
         "passwordHash": "$2b$09$bOwMGZtywr/jm9jmvPNyIOZ5IqYtE5f6kqhkTxRZ5P6wS30b6kk0a",
-        "lastLogin": "2025-02-11T10:20:44.087Z",
+        "lastLogin": "2025-02-17T07:03:27.882Z",
+        "isLocked": false
+      },
+      "orders": [],
+      "cart": [
+        [
+          {
+            "id": "Pid001",
+            "name": "dummy coffee",
+            "price": "20",
+            "quantity": 1
+          },
+          {
+            "id": "Pid002",
+            "name": "dummy coffee1",
+            "price": "12",
+            "quantity": 1
+          }
+        ]
+      ],
+      "address": []
+    },
+    {
+      "id": "0.05658684353300969",
+      "profile": {
+        "avatar": "👤",
+        "name": "user1",
+        "email": "user@gmail.com",
+        "phone": null,
+        "role": "customer",
+        "createdAt": "2025-02-13T06:36:08.926Z",
+        "updatedAt": "2025-02-13T06:36:08.926Z"
+      },
+      "auth": {
+        "passwordHash": "$2b$09$aOFxf0aWpBI./wKRm0ldJergayS62XUnSmzKZVPA7kOjYVQUq0KOS",
+        "lastLogin": "2025-02-17T07:14:36.734Z",
+        "isLocked": false
+      },
+      "orders": [],
+      "cart": [],
+      "address": []
+    },
+    {
+      "id": "0.2838711894209607",
+      "profile": {
+        "avatar": "👤",
+        "name": "user1",
+        "email": "user1@gmail.com",
+        "phone": null,
+        "role": "customer",
+        "createdAt": "2025-02-13T06:36:56.985Z",
+        "updatedAt": "2025-02-13T06:36:56.985Z"
+      },
+      "auth": {
+        "passwordHash": "$2b$09$dDV7viJHUDnPxjVwprcmB.NqTLyikrlTiLjZsw.2PeHLy3qAemkJq",
+        "lastLogin": null,
+        "isLocked": false
+      },
+      "orders": [],
+      "cart": [],
+      "address": []
+    },
+    {
+      "id": "0.08398289703484352",
+      "profile": {
+        "avatar": "👤",
+        "name": "user2",
+        "email": "user2@gmail.com",
+        "phone": null,
+        "role": "customer",
+        "createdAt": "2025-02-13T06:38:16.049Z",
+        "updatedAt": "2025-02-13T06:38:16.049Z"
+      },
+      "auth": {
+        "passwordHash": "$2b$09$A9zifVS7v0zzsDfCKep8d.VhwYyhkdjDUkjoeLnBSInJ.k5JXzGha",
+        "lastLogin": "2025-02-13T06:39:43.819Z",
         "isLocked": false
       },
       "orders": [],
