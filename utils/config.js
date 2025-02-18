@@ -1,3 +1,6 @@
-baseURL = 'http://localhost:3002'
+require('dotenv').config()
 
-module.exports = baseURL
+baseURL = 'http://localhost:3002'
+const MONGODB_URI = process.env.DB_URL
+
+module.exports = {baseURL, MONGODB_URI}

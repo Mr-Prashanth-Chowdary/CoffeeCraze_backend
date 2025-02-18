@@ -526,10 +526,25 @@
       },
       "auth": {
         "passwordHash": "$2b$09$bOwMGZtywr/jm9jmvPNyIOZ5IqYtE5f6kqhkTxRZ5P6wS30b6kk0a",
-        "lastLogin": "2025-02-17T07:03:27.882Z",
+        "lastLogin": "2025-02-17T09:31:33.858Z",
         "isLocked": false
       },
-      "orders": [],
+      "orders": [
+        {
+          "amount": 20000,
+          "amount_due": 20000,
+          "amount_paid": 0,
+          "attempts": 0,
+          "created_at": 1739784739,
+          "currency": "INR",
+          "entity": "order",
+          "id": "order_PwjHCriFgcxIk4",
+          "notes": [],
+          "offer_id": null,
+          "receipt": "receipt1",
+          "status": "created"
+        }
+      ],
       "cart": [
         [
           {
@@ -561,11 +576,78 @@
       },
       "auth": {
         "passwordHash": "$2b$09$aOFxf0aWpBI./wKRm0ldJergayS62XUnSmzKZVPA7kOjYVQUq0KOS",
-        "lastLogin": "2025-02-17T07:14:36.734Z",
+        "lastLogin": "2025-02-18T05:01:05.097Z",
         "isLocked": false
       },
-      "orders": [],
-      "cart": [],
+      "orders": [
+        {
+          "amount": 1900,
+          "amount_due": 1900,
+          "amount_paid": 0,
+          "attempts": 0,
+          "created_at": 1739787521,
+          "currency": "INR",
+          "entity": "order",
+          "id": "order_Pwk4BMzHtOvPvd",
+          "notes": [],
+          "offer_id": null,
+          "receipt": "receipt#1",
+          "status": "created"
+        },
+        {
+          "amount": 1900,
+          "amount_due": 1900,
+          "amount_paid": 0,
+          "attempts": 0,
+          "created_at": 1739787734,
+          "currency": "INR",
+          "entity": "order",
+          "id": "order_Pwk7vFbDWAGfVo",
+          "notes": [],
+          "offer_id": null,
+          "receipt": "receipt#1",
+          "status": "created"
+        },
+        {
+          "amount": 1900,
+          "amount_due": 1900,
+          "amount_paid": 0,
+          "attempts": 0,
+          "created_at": 1739787808,
+          "currency": "INR",
+          "entity": "order",
+          "id": "order_Pwk9EdBrtI7TCf",
+          "notes": [],
+          "offer_id": null,
+          "receipt": "receipt#1",
+          "status": "created"
+        },
+        {
+          "amount": 1900,
+          "amount_due": 1900,
+          "amount_paid": 0,
+          "attempts": 0,
+          "created_at": 1739787897,
+          "currency": "INR",
+          "entity": "order",
+          "id": "order_PwkAn6veSpy5uq",
+          "notes": [],
+          "offer_id": null,
+          "receipt": "receipt#1",
+          "status": "paid",
+          "payment_id": "pay_PwkB8P2Tg0ftV3"
+        }
+      ],
+      "cart": [
+        {
+          "id": 2,
+          "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1-lRJ0icTn3XzJyAdQqOZIvlSjaXKOB69C5JNG_OQjYYZCT01DsDvOn787FqRxGDw288&usqp=CAU",
+          "name": "Bold Roast",
+          "size": "500g Pack",
+          "price": 14,
+          "Quantity": 1
+        }
+      ],
       "address": []
     },
     {

@@ -9,6 +9,7 @@ const userExtractor = (request,response,next)=>{
         request.username = user.username
     }catch(e){
         console.error(e)
+        response.json('jwt token expired')
     }
     next()
 }
