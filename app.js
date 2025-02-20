@@ -30,9 +30,7 @@ app.use(express.json())
 app.use(fileUpload());
 
 app.use(express.static(path.join(__dirname, 'dist')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
+
 app.use('/api/products',productRoute)
 app.use('/api/auth',authRoute)
 app.use(jwtExtraction)
@@ -41,5 +39,8 @@ app.use('/api/user',userDataRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/pay',payment)
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
 
 module.exports = app;
