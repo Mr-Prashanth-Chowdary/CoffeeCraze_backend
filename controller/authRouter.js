@@ -29,7 +29,7 @@ auth.post('/login',async(request,response)=>{
 
     // jsonwebtoken genration 
     const key = process.env.JWT_SECRET
-    const payload = {id:userData._id, username:userData.profile.name}
+    const payload = {id:userData._id, username:userData.profile.name,role:userData.profile.role}
     const token = jwt.sign(payload,key,{expiresIn: '1h'})
 
     // update userdata lastlogin 

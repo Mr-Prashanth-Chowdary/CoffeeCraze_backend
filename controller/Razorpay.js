@@ -5,6 +5,7 @@ const Razorpay = require("razorpay");
 const baseURL = require('../utils/config');
 const { validateWebhookSignature } = require('razorpay/dist/utils/razorpay-utils')
 const User = require('../model/userModel')
+const mali = require('../services/mailer')
 require("dotenv").config();
 
 const razorpay = new Razorpay({
@@ -63,11 +64,16 @@ pay.post("/verify-payment",async(req,res)=>{
     const isValidSignature = validateWebhookSignature(body,razorpay_signature,key_secret)
     if(isValidSignature){
 
+
+    
+
       const userData = await User.findById(req.id);
       if (!userData) {
         return res.status(404).json({ status: 'error', message: 'User not found' });
       }
       
+       
+        
       // Fetch payment details from Razorpay
       const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
       console.log(paymentDetails)

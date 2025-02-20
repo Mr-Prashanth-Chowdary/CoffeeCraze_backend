@@ -9,6 +9,8 @@ const mongoose = require('mongoose')
 const payment = require('./controller/Razorpay')
 const app = express()
 const config = require('./utils/config')
+const fileUpload = require('express-fileupload');
+const productRoute = require('./controller/product')
 require('dotenv').config()
 
 // const mongoURI
@@ -23,6 +25,8 @@ mongoose.connect(config.MONGODB_URI).then(()=>{
 
 app.use(cors())
 app.use(express.json())
+app.use(fileUpload());
+app.use('/api/products',productRoute)
 app.use('/api/auth',authRoute)
 app.use(jwtExtraction)
 app.use(userExtractor)
