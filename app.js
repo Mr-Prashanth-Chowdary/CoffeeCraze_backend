@@ -25,6 +25,9 @@ mongoose.connect(config.MONGODB_URI).then(()=>{
 })
 
 app.use(express.static(path.join(__dirname, 'dist')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
 app.use(cors())
 app.use(express.json())
 app.use(fileUpload());
@@ -35,8 +38,6 @@ app.use(userExtractor)
 app.use('/api/user',userDataRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/pay',payment)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
+
 
 module.exports = app;
