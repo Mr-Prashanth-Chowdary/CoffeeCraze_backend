@@ -56,48 +56,58 @@ pay.get('/payment-success',async(req,res)=>{
   res.redirect('http://localhost:5173/paymentsuccess')
 })
 
-pay.post("/verify-payment",async(req,res)=>{
-  const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body
-  const key_secret = process.env.KEY_SECRET
-  const body = razorpay_order_id+'|'+razorpay_payment_id
-  try{
-    const isValidSignature = validateWebhookSignature(body,razorpay_signature,key_secret)
-    if(isValidSignature){
 
 
-    
+pay.post("/verify-payment", async (req, res) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  const key_secret = process.env.KEY_SECRET;
+  const body = razorpay_order_id + '|' + razorpay_payment_id;
 
-      const userData = await User.findById(req.id);
-      if (!userData) {
-        return res.status(404).json({ status: 'error', message: 'User not found' });
-      }
-      
-       
-        
-      // Fetch payment details from Razorpay
-      const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
-      console.log(paymentDetails)
-
-      // Find the order by razorpay_order_id
-      const orderIndex = userData.orders.findIndex((orderObj) => orderObj.id === razorpay_order_id);
-      if (orderIndex !== -1) {
-        // Update the order status and payment ID
-        userData.orders[orderIndex] = {
-          ...userData.orders[orderIndex],
-          amount_due: userData.orders[orderIndex].amount_due -  paymentDetails.amount,
-          amount_paid: paymentDetails.amount / 100,
-          status: "paid",
-          payment_id: razorpay_payment_id,
-        };
-        await userData.save();
-      res.status(200).json({status:'ok'})
-      console.log('payment verification successful')
+  try {
+    const isValidSignature = validateWebhookSignature(body, razorpay_signature, key_secret);
+    if (!isValidSignature) {
+      return res.status(400).json({ status: 'error', message: 'Invalid signature' });
     }
+
+    const userData = await User.findById(req.id);
+    if (!userData) {
+      return res.status(404).json({ status: 'error', message: 'User not found' });
+    }
+
+    // Update order details
+    const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
+    const orderIndex = userData.orders.findIndex(orderObj => orderObj.id === razorpay_order_id);
+    if (orderIndex !== -1) {
+      userData.orders[orderIndex] = {
+        ...userData.orders[orderIndex],
+        amount_due: userData.orders[orderIndex].amount_due - paymentDetails.amount,
+        amount_paid: paymentDetails.amount / 100,
+        status: "paid",
+        payment_id: razorpay_payment_id,
+      };
+      await userData.save();
+    }
+
+    // Attempt to send email—handle any errors separately
+    try {
+      await mali.sendPaymentSuccessEmail(
+        userData.profile.email,
+        'Your payment has been successful',
+        "Your order is confirmed and payment is verified. We will contact you once the item is ready for shipment."
+      );
+      console.log('Email sent successfully');
+    } catch (emailError) {
+      // Log the error, but don't block the response
+      console.error('Failed to send email:', emailError);
+      // Optionally, set a flag or log this event for later review
+    }
+
+    console.log('Payment verification and order update successful');
+    return res.status(200).json({ status: 'ok', message: 'Payment verified and order updated' });
+  } catch (e) {
+    console.error('Error verifying payment:', e);
+    return res.status(500).json({ status: 'error', message: 'Error verifying payment' });
   }
-}catch(e){
-    console.log(e)
-    res.status(500).json({status:'error', message:'Error veryfing Payment'})
-  }
-})
+});
 
 module.exports = pay;

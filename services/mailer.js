@@ -3,13 +3,14 @@ require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // use STARTTLS
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.EMAIL_USER, // your Gmail address
-    pass: process.env.EMAIL_PASS, 
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   },
-  debug: true, // enable debugging
+  connectionTimeout: 10000, 
+  debug: true
 });
 
 // Function to send email
@@ -18,7 +19,7 @@ const sendPaymentSuccessEmail = async (to, subject, text) => {
   console.log('Using email:', process.env.EMAIL_USER);
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: "CoffeeCaze",
     to,
     subject,
     text,
