@@ -8,6 +8,7 @@ const userExtractor = require('./middleware/userExtractor')
 const mongoose = require('mongoose')
 const payment = require('./controller/Razorpay')
 const app = express()
+const path = require('path');
 const config = require('./utils/config')
 const fileUpload = require('express-fileupload');
 const productRoute = require('./controller/product')
