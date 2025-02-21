@@ -32,6 +32,15 @@ auth.post('/login',async(request,response)=>{
     const payload = {id:userData._id, username:userData.profile.name,role:userData.profile.role}
     const token = jwt.sign(payload,key,{expiresIn: '1h'})
 
+    // refresh token 
+    const refreshToken = jwt.sign({payload},key,{expiresIn:'7d'})
+    response.cookie('refreshToken', refreshToken,{
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+        path: '/'
+    })
+
     // update userdata lastlogin 
     const updataLastLogin = await User.updateOne({_id:userData._id},{$set:{"auth.lastLogin": new Date()}})
 
@@ -70,7 +79,6 @@ auth.post('/signup',async(request,response)=>{
     })
 
     try{
-        // const addUserRes = await axios.post(`${baseURL}/user`,newUser)
         const saveUser = await newUser.save()
         return response.status(201).json({msg:'user created',data:saveUser})
     }catch(e){
@@ -78,4 +86,25 @@ auth.post('/signup',async(request,response)=>{
         return response.status(500).json({errorMsg:'internal server at signup'})
     }
 })
+
+auth.post('/refresh',(request,response)=>{
+    const refreshToken = request.cookies.refreshToken;
+    if(!refreshToken){return response.status(401).json({message: 'Refresh token not found'})}
+
+    jwt.verify(refreshToken,process.env.JWT_SECRET,(err,decoded)=>{
+        if(err){return response.status(403).json({message: 'Invalid refresh token' })}
+
+        const payload = {id:decoded.id, username:decoded.username,role:decoded.role}
+        const token = jwt.sign({payload},process.env.JWT_SECRET,{expiresIn:'1h'})
+        console.log(token)
+        console.log('new token sent')
+        return response.status(201).json({ token })
+    })
+})
+
+auth.post('/logout', (req, res) => {
+    res.clearCookie('refreshToken', { path: '/api/auth/refresh' });
+    res.json({ message: 'Logged out successfully' });
+});
+
 module.exports = auth
