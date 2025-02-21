@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+
 const express = require("express");
 const pay = express.Router();
 const Razorpay = require("razorpay");
@@ -102,8 +102,10 @@ pay.post("/verify-payment", async (req, res) => {
       // Optionally, set a flag or log this event for later review
     }
 
+    const paydata = {amountPaid:(paymentDetails.amount/100),paymentId:paymentDetails.id,date:paymentDetails.created_at}
+    console.log(paymentDetails)
     console.log('Payment verification and order update successful');
-    return res.status(200).json({ status: 'ok', message: 'Payment verified and order updated' });
+    return res.status(200).json({ status: 'ok', message: 'Payment verified and order updated',paydata:paydata});
   } catch (e) {
     console.error('Error verifying payment:', e);
     return res.status(500).json({ status: 'error', message: 'Error verifying payment' });

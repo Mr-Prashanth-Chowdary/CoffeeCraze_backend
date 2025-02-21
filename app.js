@@ -11,6 +11,7 @@ const app = express()
 const path = require('path');
 const config = require('./utils/config')
 const fileUpload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
 const productRoute = require('./controller/product')
 require('dotenv').config()
 
@@ -25,9 +26,10 @@ mongoose.connect(config.MONGODB_URI).then(()=>{
 })
 
 
-app.use(cors())
+app.use(cors({origin: 'http://localhost:5173',credentials: true    }))
 app.use(express.json())
 app.use(fileUpload());
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
