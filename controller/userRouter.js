@@ -2,9 +2,9 @@ const  userDataRoute = require('express').Router()
 const User = require('../model/userModel')
 const baseURL = require('../utils/config')
 const bcrypt = require('bcrypt')
+const userExtractor = require('../middleware/userExtractor')
 
-
-userDataRoute.get('/orders',async(req,res)=>{
+userDataRoute.get('/orders',userExtractor,async(req,res)=>{
     if(!req.id){
         return res.status(401).json({error:'unauthorized:: token invalid or not found'})
     }

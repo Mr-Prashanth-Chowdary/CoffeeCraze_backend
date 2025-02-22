@@ -1,9 +1,10 @@
 const User = require('../model/userModel')
 const cartRoute = require('express').Router()
 const Product = require('../model/productModel')
+const userExtractor = require('../middleware/userExtractor')
 
 
-cartRoute.get('/',async(request,response)=>{
+cartRoute.get('/',userExtractor,async(request,response)=>{
     if(!request.token){
         return response.status(401).send('unauthorized without token')
     }
@@ -18,7 +19,7 @@ cartRoute.get('/',async(request,response)=>{
 })
 
 // to get all carte data
-cartRoute.get('/cartitems', async (request, response) => {
+cartRoute.get('/cartitems', userExtractor,async (request, response) => {
   if (!request.token) {
     return response.status(401).send('unauthorized without token');
   }
@@ -44,7 +45,7 @@ cartRoute.get('/cartitems', async (request, response) => {
 });
 
 // to Remove paticular product
-cartRoute.post('/remove/:id', async (request, response) => {
+cartRoute.post('/remove/:id',userExtractor, async (request, response) => {
   if (!request.token) {
     return response.status(401).send('unauthorized without token');
   }
@@ -66,7 +67,7 @@ cartRoute.post('/remove/:id', async (request, response) => {
   }
 });
 
-cartRoute.post('/citem', async (request, response) => {
+cartRoute.post('/citem', userExtractor,async (request, response) => {
     if (!request.token) {
       return response.status(401).send('unauthorized without token');
     }
@@ -91,7 +92,7 @@ cartRoute.post('/citem', async (request, response) => {
     }
   });
 
-  cartRoute.get('/:id', async (request, response) => {
+  cartRoute.get('/:id', userExtractor,async (request, response) => {
     if (!request.token) {
       return response.status(401).send('unauthorized without token');
     }
@@ -115,7 +116,7 @@ cartRoute.post('/citem', async (request, response) => {
   });
 
 
-cartRoute.post('/',async(request,response)=>{
+cartRoute.post('/',userExtractor,async(request,response)=>{
     if(!request.token){
         return response.status(401).send('unauthorized without token')
     }
@@ -133,7 +134,7 @@ cartRoute.post('/',async(request,response)=>{
     }
 })
 
-cartRoute.delete('/',async(request,response)=>{
+cartRoute.delete('/',userExtractor,async(request,response)=>{
     if(!request.token){
         return response.status(401).send('unauthorized without token')
     }
