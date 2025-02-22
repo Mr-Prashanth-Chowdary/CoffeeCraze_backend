@@ -2,7 +2,7 @@ const express = require('express');
 const productRoutere = express.Router();
 const Product = require('../model/productModel');
 const cloudinary = require('cloudinary').v2;
-
+const userExtractor = require('../middleware/userExtractor')
 // Configure Cloudinary with your credentials
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 

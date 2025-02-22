@@ -6,14 +6,16 @@ const baseURL = require('../utils/config');
 const { validateWebhookSignature } = require('razorpay/dist/utils/razorpay-utils')
 const User = require('../model/userModel')
 const mali = require('../services/mailer')
+const userExtractor = require('../middleware/userExtractor')
 require("dotenv").config();
+
 
 const razorpay = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
 });
 
-pay.post("/create-order", async (req, res) => {
+pay.post("/create-order",userExtractor, async (req, res) => {
   try {
     const { amount, currency, receipt, notes } = req.body;
     
@@ -52,13 +54,13 @@ pay.post("/create-order", async (req, res) => {
 
 
 // need to update
-pay.get('/payment-success',async(req,res)=>{
+pay.get('/payment-success',userExtractor,async(req,res)=>{
   res.redirect('http://localhost:5173/paymentsuccess')
 })
 
 
 
-pay.post("/verify-payment", async (req, res) => {
+pay.post("/verify-payment",userExtractor, async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   const key_secret = process.env.KEY_SECRET;
   const body = razorpay_order_id + '|' + razorpay_payment_id;

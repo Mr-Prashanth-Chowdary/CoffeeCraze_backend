@@ -33,10 +33,11 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use('/api/products',productRoute)
+
 app.use('/api/auth',authRoute)
+app.use('/api/products',productRoute)
 app.use(jwtExtraction)
-app.use(userExtractor)
+// app.use(userExtractor) -> moved to required routes
 app.use('/api/user',userDataRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/pay',payment)
