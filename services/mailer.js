@@ -14,15 +14,15 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send email
-const sendPaymentSuccessEmail = async (to, subject, text) => {
+const sendPaymentSuccessEmail = async (to, subject, html) => {
   console.log('Sending email to:', to);
   console.log('Using email:', process.env.EMAIL_USER);
 
   const mailOptions = {
-    from: "CoffeeCaze",
+    from: "CoffeeCraze",
     to,
     subject,
-    text,
+    html:html,
     // html: '<p>Your HTML content here</p>', // Optional: Add HTML content
   };
 

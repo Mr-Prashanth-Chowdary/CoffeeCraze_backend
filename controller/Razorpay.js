@@ -7,6 +7,7 @@ const { validateWebhookSignature } = require('razorpay/dist/utils/razorpay-utils
 const User = require('../model/userModel')
 const mali = require('../services/mailer')
 const userExtractor = require('../middleware/userExtractor')
+const orderSuccessTemp = require('../services/Templets/orderSucessTemp')
 require("dotenv").config();
 
 
@@ -95,7 +96,7 @@ pay.post("/verify-payment",userExtractor, async (req, res) => {
       await mali.sendPaymentSuccessEmail(
         userData.profile.email,
         'Your payment has been successful',
-        "Your order is confirmed and payment is verified. We will contact you once the item is ready for shipment."
+        orderSuccessTemp(userData.profile.name,razorpay_order_id,paymentDetails.amount/100, new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }))
       );
       console.log('Email sent successfully');
     } catch (emailError) {
