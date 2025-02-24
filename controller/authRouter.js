@@ -1,9 +1,10 @@
 const auth = require('express').Router()
-const axios  = require('axios');
 const baseURL = require('../utils/config')
 const bcrypt  = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../model/userModel')
+const mail = require('../services/mailer')
+const welcomeTemp = require('../services/Templets/welcomeTemp')
 require('dotenv').config()
 
 
@@ -30,10 +31,10 @@ auth.post('/login',async(request,response)=>{
     // jsonwebtoken genration 
     const key = process.env.JWT_SECRET
     const payload = {id:userData._id, username:userData.profile.name,role:userData.profile.role}
-    const token = jwt.sign(payload,key,{expiresIn: '1h'})
+    const token = jwt.sign(payload,key,{expiresIn: '1m'})
 
     // refresh token 
-    const refreshToken = jwt.sign({payload},key,{expiresIn:'7d'})
+    const refreshToken = jwt.sign(payload,key,{expiresIn:'7d'})
     response.cookie('refreshToken', refreshToken,{
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -80,6 +81,20 @@ auth.post('/signup',async(request,response)=>{
 
     try{
         const saveUser = await newUser.save()
+          
+        // Attempt to send email—handle any errors separately
+         try {
+        await mali.sendPaymentSuccessEmail(
+          userData.profile.email,
+          '👑 Welcome to the R Royal Family - Your 10% Welcome Gift Awaits!',
+          welcomeTemp(username)
+        );
+        console.log('Email sent successfully');
+      } catch (emailError) {
+        // Log the error, but don't block the response
+        console.error('Failed to send email:', emailError);
+      }
+  
         return response.status(201).json({msg:'user created',data:saveUser})
     }catch(e){
         console.error(e)
@@ -91,12 +106,11 @@ auth.post('/refresh',(request,response)=>{
     const refreshToken = request.cookies.refreshToken;
     if(!refreshToken){return response.status(401).json({message: 'Refresh token not found'})}
 
+    console.log(refreshToken)
     jwt.verify(refreshToken,process.env.JWT_SECRET,(err,decoded)=>{
         if(err){return response.status(403).json({message: 'Invalid refresh token' })}
-
         const payload = {id:decoded.id, username:decoded.username,role:decoded.role}
-        const token = jwt.sign({payload},process.env.JWT_SECRET,{expiresIn:'1h'})
-        console.log(token)
+        const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'1m'})
         console.log('new token sent')
         return response.status(201).json({ token })
     })

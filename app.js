@@ -13,6 +13,8 @@ const config = require('./utils/config')
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const productRoute = require('./controller/product')
+const adminRoute = require('./controller/admin')
+const morgan = require('morgan');
 require('dotenv').config()
 
 // const mongoURI
@@ -30,6 +32,7 @@ app.use(cors({origin: ['http://localhost:5173', 'https://coffeecraze-backend.onr
 app.use(express.json())
 app.use(fileUpload());
 app.use(cookieParser());
+app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -39,6 +42,7 @@ app.use('/api/products',productRoute)
 app.use(jwtExtraction)
 // app.use(userExtractor) -> moved to required routes
 app.use('/api/user',userDataRoute)
+app.use('/api/admin',adminRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/pay',payment)
 
