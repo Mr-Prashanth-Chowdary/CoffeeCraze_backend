@@ -94,7 +94,7 @@ pay.post("/verify-payment",userExtractor, async (req, res) => {
 
     // Attempt to send email—handle any errors separately
     try {
-      await mali.sendPaymentSuccessEmail(
+      await mali.sendEmail(
         userData.profile.email,
         'Your payment has been successful',
         orderSuccessTemp(userData.profile.name,razorpay_order_id,paymentDetails.amount/100, new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }))

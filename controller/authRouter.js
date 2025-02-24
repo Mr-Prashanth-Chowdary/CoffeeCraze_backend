@@ -84,7 +84,7 @@ auth.post('/signup',async(request,response)=>{
           
         // Attempt to send email—handle any errors separately
          try {
-        await mali.sendPaymentSuccessEmail(
+        await mail.sendEmail(
            emailid,
           '👑 Welcome to the R Royal Family - Your 10% Welcome Gift Awaits!',
           welcomeTemp(username)
