@@ -25,6 +25,7 @@ cartRoute.get('/cartitems', userExtractor,async (request, response) => {
   }
   try {
     // Retrieve the user document using the id from the authentication middleware
+    
     const user = await User.findById(request.id);
     if (!user) {
       return response.status(404).json({ errorMsg: "User not found" });

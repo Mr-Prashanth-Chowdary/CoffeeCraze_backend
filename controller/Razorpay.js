@@ -86,6 +86,7 @@ pay.post("/verify-payment",userExtractor, async (req, res) => {
         amount_due: userData.orders[orderIndex].amount_due - paymentDetails.amount,
         amount_paid: paymentDetails.amount / 100,
         status: "paid",
+        orderStatus: "yet_to_be_Shipped",
         payment_id: razorpay_payment_id,
       };
       await userData.save();
