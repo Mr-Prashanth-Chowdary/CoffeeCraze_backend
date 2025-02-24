@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send email
-const sendPaymentSuccessEmail = async (to, subject, html) => {
+const sendEmail = async (to, subject, html) => {
   console.log('Sending email to:', to);
   console.log('Using email:', process.env.EMAIL_USER);
 
@@ -36,4 +36,4 @@ const sendPaymentSuccessEmail = async (to, subject, html) => {
   }
 };
 
-module.exports = { sendPaymentSuccessEmail };
+module.exports = { sendEmail };
