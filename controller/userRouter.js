@@ -1,6 +1,5 @@
 const  userDataRoute = require('express').Router()
 const User = require('../model/userModel')
-const baseURL = require('../utils/config')
 const bcrypt = require('bcrypt')
 const userExtractor = require('../middleware/userExtractor')
 

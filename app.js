@@ -13,8 +13,10 @@ const config = require('./utils/config')
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const productRoute = require('./controller/product')
+const session = require('express-session');
 const adminRoute = require('./controller/admin')
 const morgan = require('morgan');
+const passport = require('./services/Oauth/googleOauth')
 require('dotenv').config()
 
 // const mongoURI
@@ -26,6 +28,16 @@ mongoose.connect(config.MONGODB_URI).then(()=>{
 }).catch((error)=>{
     console.log('connection error',error)
 })
+
+//passport 
+app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+app.use(passport.session());
+app.use(passport.initialize());
 
 
 app.use(cors({origin: ['http://localhost:5173', 'https://coffeecraze-backend.onrender.com'],credentials: true    }))

@@ -2,7 +2,6 @@
 const express = require("express");
 const pay = express.Router();
 const Razorpay = require("razorpay");
-const baseURL = require('../utils/config');
 const { validateWebhookSignature } = require('razorpay/dist/utils/razorpay-utils')
 const User = require('../model/userModel')
 const mali = require('../services/mailer')

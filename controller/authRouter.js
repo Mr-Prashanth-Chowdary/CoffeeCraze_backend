@@ -1,17 +1,17 @@
 const auth = require('express').Router()
-const baseURL = require('../utils/config')
 const bcrypt  = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../model/userModel')
 const mail = require('../services/mailer')
 const welcomeTemp = require('../services/Templets/welcomeTemp')
+const passport = require('../services/Oauth/googleOauth');
 require('dotenv').config()
 
 
 auth.post('/login',async(request,response)=>{
     const {email,password} = request.body;
     if(!email){
-        return response.status(401).json({errorMsg:'username required'})
+        return response.status(401).json({errorMsg:'email required'})
     }
     if(!password){
         return response.status(401).json({errorMsg:'password required'})
@@ -119,6 +119,27 @@ auth.post('/refresh',(request,response)=>{
 auth.post('/logout', (req, res) => {
     res.clearCookie('refreshToken', { path: '/api/auth/refresh' });
     res.json({ message: 'Logged out successfully' });
+});
+
+
+//google oAuth2.0
+auth.get('/google',passport.authenticate('google',{scope:['profile','email']}))
+
+auth.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+    if (!req.user) {
+        return res.redirect('/?error=Unauthorized');
+    }
+
+    const payload = { id: req.user._id, username: req.user.profile.name, role: req.user.profile.role };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' });
+    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET,{expiresIn:'7d'});
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production' ? true : false, 
+        sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax'
+    });
+
+    res.redirect(`http://localhost:5173/?token=${token}`);
 });
 
 module.exports = auth
