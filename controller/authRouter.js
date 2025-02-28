@@ -5,6 +5,7 @@ const User = require('../model/userModel')
 const mail = require('../services/mailer')
 const welcomeTemp = require('../services/Templets/welcomeTemp')
 const passport = require('../services/Oauth/googleOauth');
+const oauthLoginWelcome = require('../services/Templets/oauthLoginWelcome')
 require('dotenv').config()
 
 
@@ -31,7 +32,7 @@ auth.post('/login',async(request,response)=>{
     // jsonwebtoken genration 
     const key = process.env.JWT_SECRET
     const payload = {id:userData._id, username:userData.profile.name,role:userData.profile.role}
-    const token = jwt.sign(payload,key,{expiresIn: '1m'})
+    const token = jwt.sign(payload,key,{expiresIn: '5m'})
 
     // refresh token 
     const refreshToken = jwt.sign(payload,key,{expiresIn:'7d'})
@@ -39,7 +40,8 @@ auth.post('/login',async(request,response)=>{
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
-        path: '/'
+        path: '/',
+        maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
     // update userdata lastlogin 
@@ -106,11 +108,10 @@ auth.post('/refresh',(request,response)=>{
     const refreshToken = request.cookies.refreshToken;
     if(!refreshToken){return response.status(401).json({message: 'Refresh token not found'})}
 
-    console.log(refreshToken)
     jwt.verify(refreshToken,process.env.JWT_SECRET,(err,decoded)=>{
         if(err){return response.status(403).json({message: 'Invalid refresh token' })}
         const payload = {id:decoded.id, username:decoded.username,role:decoded.role}
-        const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'1m'})
+        const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'5m'})
         console.log('new token sent')
         return response.status(201).json({ token })
     })
@@ -125,13 +126,13 @@ auth.post('/logout', (req, res) => {
 //google oAuth2.0
 auth.get('/google',passport.authenticate('google',{scope:['profile','email']}))
 
-auth.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+auth.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), async(req, res) => {
     if (!req.user) {
         return res.redirect('/?error=Unauthorized');
     }
-
+    
     const payload = { id: req.user._id, username: req.user.profile.name, role: req.user.profile.role };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1m' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5m' });
     const refreshToken = jwt.sign(payload, process.env.JWT_SECRET,{expiresIn:'7d'});
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
@@ -139,7 +140,26 @@ auth.get('/google/callback', passport.authenticate('google', { failureRedirect: 
         sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax'
     });
 
-    res.redirect(`http://localhost:5173/?token=${token}`);
+    // email service
+    try{  
+        // Attempt to send email—handle any errors separately
+         try {
+        await mail.sendEmail(
+           emailid,
+          '👑 Welcome to the R Royal Family - Account access consent',
+          oauthLoginWelcome(req.user.profile.name,req.user.profile.email)
+        );
+        console.log('Email sent successfully');
+      } catch (emailError) {
+        // Log the error, but don't block the response
+        console.error('Failed to send email:', emailError);
+      }
+    //redirect to home page
+        res.redirect(`http://localhost:5173/?token=${token}`);
+    }catch(e){
+        console.error(e)
+        return response.status(500).json({errorMsg:'internal server at signup'})
+    }
 });
 
 module.exports = auth
