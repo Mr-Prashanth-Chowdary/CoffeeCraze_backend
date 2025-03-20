@@ -155,7 +155,8 @@ auth.get('/google/callback', passport.authenticate('google', { failureRedirect: 
         console.error('Failed to send email:', emailError);
       }
     //redirect to home page
-        res.redirect(`http://localhost:5173/?token=${token}`);
+        // res.redirect(`http://localhost:5173/?token=${token}`);
+        res.redirect(`https://coffeecraze-backend.onrender.com/?token=${token}`);
     }catch(e){
         console.error(e)
         return response.status(500).json({errorMsg:'internal server at signup'})
