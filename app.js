@@ -42,13 +42,13 @@ app.use(passport.initialize());
 
 
 // rate limiting
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per window
-    message: "Too many requests, please try again later.",
-    headers: true, // Send rate limit info in response headers
-  });
-app.use(limiter);
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 100, // Limit each IP to 100 requests per window
+//     message: "Too many requests, please try again later.",
+//     headers: true, // Send rate limit info in response headers
+//   });
+// app.use(limiter);
 
 app.use(cors({origin: ['http://localhost:5173', 'https://coffeecraze-backend.onrender.com'],credentials: true    }))
 app.use(express.json())
