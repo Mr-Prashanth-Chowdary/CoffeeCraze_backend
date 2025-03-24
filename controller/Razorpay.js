@@ -5,6 +5,7 @@ const Razorpay = require("razorpay");
 const { validateWebhookSignature } = require('razorpay/dist/utils/razorpay-utils')
 const User = require('../model/userModel')
 const mali = require('../services/mailer')
+const Product = require('../model/productModel')
 const userExtractor = require('../middleware/userExtractor')
 const orderSuccessTemp = require('../services/Templets/orderSucessTemp')
 require("dotenv").config();
@@ -17,18 +18,30 @@ const razorpay = new Razorpay({
 
 pay.post("/create-order",userExtractor, async (req, res) => {
   try {
-    const { amount, currency, receipt, notes } = req.body;
+    const {productIds, currency, receipt, notes } = req.body;
+
     
-    if (!amount || !currency || !receipt) {
+    if (!productIds || !currency || !receipt) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+
+    // validation for tamper proof
+    const products = await Product.find({
+      _id: { $in: productIds }
+    });
+    const totalPrice = products.reduce((acc, product) => acc + (product.price || 0), 0);
+    // console.log(products)
+    // console.log(totalPrice)
+
     const options = {
-      amount: amount * 100, // Convert amount to smallest currency unit
+      amount: totalPrice * 100, // Convert amount to smallest currency unit
       currency,
       receipt,
       notes,
     };
+
+
 
     // Create order
     const order = await razorpay.orders.create(options);
@@ -42,7 +55,7 @@ pay.post("/create-order",userExtractor, async (req, res) => {
     if (!userData.orders) {
       userData.orders = [];
     }
-    userData.orders.push({...order,amount:amount});
+    userData.orders.push({...order,amount: totalPrice});
     await userData.save();
     res.status(201).json(order);
 
@@ -88,7 +101,13 @@ pay.post("/verify-payment",userExtractor, async (req, res) => {
         orderStatus: "yet_to_be_Shipped",
         payment_id: razorpay_payment_id,
       };
-      await userData.save();
+      // check for full amount transaction 
+      if (userData.orders[orderIndex].amount_due > 0) {
+        return res.status(400).json({ status: 'error', message: 'Looks like a request tamper' });
+      }
+      else{
+        await userData.save();
+      }
     }
 
     // Attempt to send email—handle any errors separately
